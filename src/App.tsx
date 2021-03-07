@@ -1,26 +1,59 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import { Box } from '@material-ui/core'
 import './App.css';
+import DateForm from './Components/DateForm';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import TableContainer from '@material-ui/core/TableContainer'
+import TableRow from '@material-ui/core/TableRow'
+
+interface Props {
 }
 
-export default App;
+export default function App(props: Props): JSX.Element {
+    // 現在時刻
+    const now = new Date()
+    const year = now.getFullYear()
+    const month = ('00' + (now.getMonth() + 1)).slice(-2)
+    const date = ('00' + now.getDate()).slice(-2)
+    const currentDate = `${year}-${month}-${date}`
+    const [deadLine, updateDeadLine] = useState(currentDate)
+  return (
+    <React.StrictMode>
+      <Table>
+        <TableBody>
+          <TableContainer>
+            <TableRow>
+            <TableCell>
+              <Box display="flex" alignItems="center">
+                <DateForm
+                label={'開催日'}
+                name={'eventDate'}
+                registeredValue={currentDate}
+                updateValue={updateDeadLine}
+                />
+              </Box>
+            </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>
+                <Box display="flex" alignItems="center">
+                  <DateForm
+                    label={'申込期日'}
+                    name={'deadLine'}
+                    registeredValue={deadLine}
+                    updateValue={updateDeadLine}
+                  />
+                </Box>
+              </TableCell>
+            </TableRow>
+          </TableContainer>
+        </TableBody>
+      </Table>
+
+
+    </React.StrictMode>
+  );
+}
